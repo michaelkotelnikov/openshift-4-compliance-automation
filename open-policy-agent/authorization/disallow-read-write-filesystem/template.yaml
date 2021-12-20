@@ -1,0 +1,49 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sdisallowrwfilesystem
+  annotations:
+    description: Requires containers to have a readonly filesystem
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8SDisallowRWFilesystem
+      validation:
+        openAPIV3Schema:
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sdisallowrwfilesystem
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          contrainer.securityContext.readOnlyRootFilesystem == false
+          msg := sprintf("container <%v> uses a Read/Write filesystem. Change `contrainer.securityContext.readOnlyRootFilesystem` from `false` to `true`", [container.name])
+        }
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          missing(container.securityContext, "readOnlyRootFilesystem")
+          msg := sprintf("container <%v> uses a Read/Write filesystem. Add `contrainer.securityContext.readOnlyRootFilesystem` to the container's definition", [container.name])
+        }
+
+        input_containers[c] {
+          c := input.review.object.spec.containers[_]
+        }
+
+        input_containers[c] {
+          c := input.review.object.spec.initContainers[_]
+        }
+
+        missing(obj, field) = true {
+            not obj[field]
+        }
+                
+        missing(obj, field) = true {
+            obj[field] == ""
+        }
