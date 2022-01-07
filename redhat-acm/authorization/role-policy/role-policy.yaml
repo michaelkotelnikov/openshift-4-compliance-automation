@@ -8,7 +8,7 @@ metadata:
     policy.open-cluster-management.io/categories: AC Access Control
     policy.open-cluster-management.io/controls: AC-3 Access Enforcement
 spec:
-  remediationAction: inform
+  remediationAction: enfroce
   disabled: false
   policy-templates:
     - objectDefinition:
@@ -20,7 +20,7 @@ spec:
           remediationAction: inform # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
           severity: high
           namespaceSelector:
-            include: ["default"] # Namespace on which the role is effective
+            include: ["mariadb"] # Namespace on which the role is effective
           object-templates:
             - complianceType: mustonlyhave # role definition should exact match
               objectDefinition:
