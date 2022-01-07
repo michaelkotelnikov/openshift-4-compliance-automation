@@ -8,7 +8,7 @@ metadata:
     policy.open-cluster-management.io/categories: SC System and Communications Protection
     policy.open-cluster-management.io/controls: SC-6 Resource Availability
 spec:
-  remediationAction: inform
+  remediationAction: enforce
   disabled: false
   policy-templates:
     - objectDefinition:
@@ -20,7 +20,7 @@ spec:
           remediationAction: inform # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
           severity: medium
           namespaceSelector:
-            include: ["default"] # Namespace on which the policy will take affect
+            include: ["mariadb"] # Namespace on which the policy will take affect
           object-templates:
             - complianceType: musthave
               objectDefinition:
