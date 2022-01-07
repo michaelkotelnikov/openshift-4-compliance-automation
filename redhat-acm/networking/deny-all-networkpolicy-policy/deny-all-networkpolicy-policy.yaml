@@ -17,7 +17,7 @@ spec:
         metadata:
           name: policy-networkpolicy-denyall
         spec:
-          remediationAction: inform # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
+          remediationAction: enforce # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
           severity: medium
           namespaceSelector:
             include: ["mariadb"] # Namespace on which the policy is deployed
