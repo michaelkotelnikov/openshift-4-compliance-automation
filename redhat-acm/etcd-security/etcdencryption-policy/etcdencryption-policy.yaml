@@ -8,7 +8,6 @@ metadata:
     policy.open-cluster-management.io/categories: SC System and Communications Protection
     policy.open-cluster-management.io/controls: SC-28 (1) Cryptographic Protection
 spec:
-  remediationAction: inform
   disabled: false
   policy-templates:
     - objectDefinition:
@@ -17,7 +16,7 @@ spec:
         metadata:
           name: enable-etcd-encryption
         spec:
-          remediationAction: inform
+          remediationAction: enforce
           severity: low
           object-templates:
             - complianceType: musthave
